@@ -1,37 +1,28 @@
 package tensor
 
-import "fmt"
-
-//Enum class containing all the possible types a tensor can take
-type TensorType int64
-
-const (
-	Integer TensorType = iota
-	Float
-)
-
-//Converts the tensorType into a string representation
-func (tensorType TensorType) String() string {
-	switch tensorType {
-	case Integer:
-		return "Integer"
-	case Float:
-		return "Float"
-	}
-	return "Unknown"
-}
-
-//Representation of a Tensor
+//Defines the representation of a tensor which will be used for all network operations
 type Tensor struct {
-	tensorType TensorType
+	data []float64
 }
 
-//Displays all the details about the tensor
-func (tensor *Tensor) Details() string {
-	return fmt.Sprintf("Type: %v", tensor.tensorType.String())
+//Creates a new tensor object and returns a reference to that object
+func NewTensor(data []float64) *Tensor {
+	return &Tensor{data: data}
 }
 
-//Creates a new object of the Tensor struct and returns a pointer to that object
-func NewTensor(tensorType TensorType) *Tensor {
-	return &Tensor{tensorType: tensorType}
+//Getter for the data property of a tensor
+func (tensor *Tensor) GetData() []float64 {
+	return tensor.data
+}
+
+//In place element-wise addition of another tensor object to the current one
+func (tensor *Tensor) Add(other *Tensor) {
+	//Can only add tensors of the same size
+	if len(tensor.data) != len(other.data) {
+		return
+	}
+
+	for i, element := range tensor.data {
+		tensor.data[i] = element + other.data[i]
+	}
 }
