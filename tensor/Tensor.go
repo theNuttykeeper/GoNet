@@ -21,7 +21,7 @@ func (tensor *Tensor) GetData() []float64 {
 func (tensor *Tensor) Add(other *Tensor) error {
 	//Can only add tensors of the same size
 	if len(tensor.data) != len(other.data) {
-		return fmt.Errorf("cannot perform addition on two tensors of different dimensions, dimensions provided were: %d and %d", len(tensor.data), len(tensor.data))
+		return fmt.Errorf("cannot perform addition on two tensors of different dimensions, dimensions provided were: %d and %d", len(tensor.data), len(other.data))
 	}
 
 	for i := range tensor.data {
@@ -33,9 +33,9 @@ func (tensor *Tensor) Add(other *Tensor) error {
 
 //In place element-wise subtraction of another tensor object to the current one - returns an error if subtraction could not be performed
 func (tensor *Tensor) Subtract(other *Tensor) error {
-	//Can only add tensors of the same size
+	//Can only subtract tensors of the same size
 	if len(tensor.data) != len(other.data) {
-		return fmt.Errorf("cannot perform subtraction on two tensors of different dimensions, dimensions provided were: %d and %d", len(tensor.data), len(tensor.data))
+		return fmt.Errorf("cannot perform subtraction on two tensors of different dimensions, dimensions provided were: %d and %d", len(tensor.data), len(other.data))
 	}
 
 	for i := range tensor.data {
@@ -45,10 +45,23 @@ func (tensor *Tensor) Subtract(other *Tensor) error {
 	return nil
 }
 
+//In Place multiplication of each element in the current tensor by each element in a different one - returns an error if the multiplication cannot be performed
+func (tensor *Tensor) ElementMultiplication(other *Tensor) error {
+	if len(tensor.data) != len(other.data) {
+		return fmt.Errorf("cannot perform multiplication on two tensors of different dimensions, dimnensions provided were %d and %d", len(tensor.data), len(other.data))
+	}
+
+	for i := range tensor.data {
+		tensor.data[i] *= other.data[i]
+	}
+
+	return nil
+}
+
 //Returns the dot product to two tensors - returns an error if dot product cannot be performed
 func (tensor *Tensor) DotProduct(other *Tensor) (float64, error) {
 	if len(tensor.data) != len(other.data) {
-		return -1.0, fmt.Errorf("cannot perform dot product on two tensors of unequal dimensions, dimensions provided were: %d and %d", len(tensor.data), len(tensor.data))
+		return -1.0, fmt.Errorf("cannot perform dot product on two tensors of unequal dimensions, dimensions provided were: %d and %d", len(tensor.data), len(other.data))
 	}
 
 	var product float64 = 0
