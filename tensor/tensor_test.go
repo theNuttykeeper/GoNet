@@ -15,7 +15,7 @@ func TestAddValid(t *testing.T) {
 	if !utils.FloatSlicesEqual(tensor1.GetData(), []float64{5.0, 16.0, 8.0}) {
 		t.Errorf("add result was incorrect, got %v, expected %v", tensor1.GetData(), []float64{5.0, 16.0, 8.0})
 	} else if addError != nil {
-		t.Errorf("add result was correctly calculated, however error was returned when no error should occur")
+		t.Errorf("add result was correctly calculated, however error was returned: %v", addError)
 	}
 }
 
@@ -39,7 +39,7 @@ func TestSubtractValid(t *testing.T) {
 	if !utils.FloatSlicesEqual(tensor1.GetData(), []float64{0.0, 4.0, 2.0}) {
 		t.Errorf("add result was incorrect, got %v, expected %v", tensor1.GetData(), []float64{0.0, 4.0, 2.0})
 	} else if subtractError != nil {
-		t.Errorf("add result was correctly calculated, however error was returned when no error should occur")
+		t.Errorf("add result was correctly calculated, however error was returned: %v", subtractError)
 	}
 }
 
@@ -63,7 +63,7 @@ func TestMultiplicationValid(t *testing.T) {
 	if !utils.FloatSlicesEqual(tensor1.GetData(), []float64{16.0, 60.0, 15.0}) {
 		t.Errorf("add result was incorrect, got %v, expected %v", tensor1.GetData(), []float64{16.0, 60.0, 15.0})
 	} else if multiplicationError != nil {
-		t.Errorf("add result was correctly calculated, however error was returned when no error should occur")
+		t.Errorf("add result was correctly calculated, however error was returned: %v", multiplicationError)
 	}
 }
 
@@ -87,7 +87,7 @@ func TestDotProductValid(t *testing.T) {
 	if dotResult != 79.0 || dotError != nil {
 		t.Errorf("dot product result was incorrect, got %f, expected %f", dotResult, 79.0)
 	} else if dotError != nil {
-		t.Errorf("Dot product result was correctly calculated, however error was returned when no error should occur")
+		t.Errorf("Dot product result was correctly calculated, however error was returned: %v", dotError)
 	}
 }
 
