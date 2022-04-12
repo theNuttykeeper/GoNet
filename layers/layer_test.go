@@ -1,6 +1,10 @@
 package layers
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/theNuttykeeper/GoNet/tensor"
+)
 
 //Tests that the create random weights function correctly generates a slice of the right length containing values between 0 and 1.
 //This test uses valid length input
@@ -56,5 +60,39 @@ func TestNewLinearInvalid(t *testing.T) {
 	}
 	if layer3Error == nil {
 		t.Errorf("expected error when creating lauer with negative input and output size")
+	}
+}
+
+//Tests that the perform function works correctly when input to the layer is valid
+func TestPerformValid(t *testing.T) {
+	layer, layerError := NewLinear(10, 5)
+
+	if layerError != nil {
+		t.Errorf("error when creating the linear layer: error: %v", layerError)
+	}
+
+	inputTensor := tensor.NewTensor([]float64{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0})
+	outputTensor, outputError := layer.Perform(inputTensor)
+
+	if outputError != nil {
+		t.Errorf("error when getting the output of the layer, error: %v", outputError)
+	} else if len(outputTensor.GetData()) != 5 {
+		t.Errorf("size of output tensor not correct, expected 5, got %d", len(outputTensor.GetData()))
+	}
+}
+
+//Tests that the perform function gives error when the input tensor is not of the correct size
+func TestPerformInvalid(t *testing.T) {
+	layer, layerError := NewLinear(10, 5)
+
+	if layerError != nil {
+		t.Errorf("error when creating the linear layer: error: %v", layerError)
+	}
+
+	inputTensor := tensor.NewTensor([]float64{1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0})
+	_, outputError := layer.Perform(inputTensor)
+
+	if outputError == nil {
+		t.Errorf("expected error when passing input to layer with incorrect size")
 	}
 }
